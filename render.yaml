@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: naqaab-backend
+    name: filmmaking-backend
     env: python
     rootDir: backend
     plan: free
@@ -12,14 +12,14 @@ services:
       - key: DB_NAME
         value: naqaab
       - key: CORS_ORIGINS
-        value: https://naqaab-frontend.onrender.com,https://filmmaking.onrender.com
+        value: https://naqaab-filmmaking.onrender.com,https://filmmaking.onrender.com
 
   - type: static
-    name: naqaab-frontend
+    name: naqaab-filmmaking
     rootDir: frontend
     plan: free
     buildCommand: npm install && npm run build
     staticPublishPath: build
     envVars:
       - key: REACT_APP_API_URL
-        value: https://naqaab-backend.onrender.com
+        value: https://filmmaking.onrender.com
