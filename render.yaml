@@ -1,7 +1,7 @@
 services:
   - type: web
     name: filmmaking-backend
-    env: python
+    runtime: python
     rootDir: backend
     plan: free
     buildCommand: pip install -r requirements.txt
@@ -14,9 +14,9 @@ services:
       - key: CORS_ORIGINS
         value: https://filmmaking.onrender.com
 
-  - type: static
+  - type: web
     name: filmmaking
-    env: static
+    runtime: static
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: build
