@@ -153,7 +153,8 @@ This repository is ready for a two-service Render deployment:
 2. Provide `MONGO_URL` as a Render secret for the backend web service.
 3. Keep `DB_NAME` as `naqaab` unless you want a different database name.
 4. The backend service starts with `uvicorn server:app --host 0.0.0.0 --port $PORT`.
-5. The frontend is deployed as a static site from `frontend/build` after `yarn build`.
+5. The frontend is deployed as a static site from `frontend/build` after `npm install && npm run build`.
+6. Set `REACT_APP_API_URL` on the frontend to your backend URL, and keep `CORS_ORIGINS` on the backend set to your deployed frontend URL.
 
 The backend exposes a health check at `/`, and the API is mounted under `/api`.
 
