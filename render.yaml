@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: naqaab-backend
+    env: python
+    rootDir: backend
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn server:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: MONGO_URL
+        sync: false
+      - key: DB_NAME
+        value: naqaab
+      - key: CORS_ORIGINS
+        value: '*'
+
+  - type: static
+    name: naqaab-frontend
+    rootDir: frontend
+    plan: free
+    buildCommand: yarn install --frozen-lockfile && yarn build
+    staticPublishPath: build

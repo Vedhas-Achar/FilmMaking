@@ -1,0 +1,451 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============ CUSTOM FONT FACES ============ */
+@font-face {
+  font-family: 'ArabDances';
+  src: url('./assets/fonts/ArabDances.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Code Pro Light';
+  src: url('./assets/fonts/code_pro_light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ============ CSS VARIABLES ============ */
+:root {
+  --black: #080808;
+  --off-black: #0a0a0a;
+  --deep-grey: #161616;
+  --ash: #2a2a2a;
+  --white: #e8e4d9;
+  --dim-white: rgba(232, 228, 217, 0.45);
+  --bright-white: #e8e4d9;
+  --gold: #c8b89a;
+  --teal: #1de0cc;
+  --crimson: #c0392b;
+  --film-grain: rgba(255, 255, 255, 0.03);
+
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-serif: 'Playfair Display', serif;
+  --font-body: 'Neue Haas Grotesk', 'Inter', sans-serif;
+  --font-meta: 'Space Mono', monospace;
+  --font-script: 'Dancing Script', cursive;
+  --font-wordmark: 'ArabDances', cursive;
+  --font-code: 'Code Pro Light', monospace;
+
+  --background: 0 0% 2%;
+  --foreground: 43 20% 88%;
+  --card: 0 0% 4%;
+  --card-foreground: 43 20% 88%;
+  --popover: 0 0% 4%;
+  --popover-foreground: 43 20% 88%;
+  --primary: 43 20% 88%;
+  --primary-foreground: 0 0% 2%;
+  --secondary: 0 0% 8%;
+  --secondary-foreground: 43 20% 88%;
+  --muted: 0 0% 8%;
+  --muted-foreground: 43 20% 52%;
+  --accent: 43 20% 88%;
+  --accent-foreground: 0 0% 2%;
+  --destructive: 4 63% 46%;
+  --destructive-foreground: 43 20% 88%;
+  --border: 0 0% 10%;
+  --input: 0 0% 10%;
+  --ring: 43 20% 88%;
+  --radius: 0rem;
+}
+
+/* ============ GLOBAL RESETS ============ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background-color: var(--black);
+  color: var(--white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ============ CUSTOM SCROLLBAR ============ */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--black);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(245, 240, 235, 0.3);
+  border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(245, 240, 235, 0.5);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(245,240,235,0.3) var(--black);
+}
+
+/* ============ TEXT SELECTION ============ */
+::selection {
+  background-color: var(--white);
+  color: var(--black);
+}
+
+::-moz-selection {
+  background-color: var(--white);
+  color: var(--black);
+}
+
+/* ============ FOCUS STATES ============ */
+*:focus-visible {
+  outline: 1px solid var(--white);
+  outline-offset: 2px;
+}
+
+/* ============ TYPOGRAPHY CLASSES ============ */
+.font-display { font-family: var(--font-display); }
+.font-serif { font-family: var(--font-serif); }
+.font-body { font-family: var(--font-body); }
+.font-meta { font-family: var(--font-meta); }
+.font-script { font-family: var(--font-script); }
+.font-wordmark { font-family: var(--font-wordmark); }
+.font-code { font-family: var(--font-code); }
+
+/* ============ FILM GRAIN OVERLAY ============ */
+/* Disabled — caused visual glitching due to rapid stepped animation at z-9999 */
+.grain-overlay {
+  display: none;
+}
+
+@keyframes grain-shift {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ============ GLITCH TEXT ============ */
+.glitch-text {
+  position: relative;
+  animation: glitch-settle 0.8s ease-out forwards;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch-text::before {
+  color: rgba(255,255,255,0.6);
+  animation: glitch-1 0.5s ease-out forwards;
+  clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+}
+
+.glitch-text::after {
+  color: rgba(200,200,200,0.4);
+  animation: glitch-2 0.5s ease-out forwards;
+  clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+}
+
+@keyframes glitch-1 {
+  0% { transform: translate(6px, -3px); opacity: 0.9; }
+  30% { transform: translate(-4px, 2px); opacity: 0.7; }
+  60% { transform: translate(2px, -1px); opacity: 0.4; }
+  100% { transform: translate(0, 0); opacity: 0; }
+}
+
+@keyframes glitch-2 {
+  0% { transform: translate(-6px, 3px); opacity: 0.9; }
+  30% { transform: translate(4px, -2px); opacity: 0.7; }
+  60% { transform: translate(-2px, 1px); opacity: 0.4; }
+  100% { transform: translate(0, 0); opacity: 0; }
+}
+
+@keyframes glitch-settle {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ============ VIGNETTE ============ */
+.vignette::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.9) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ============ SCANLINE ============ */
+.scanlines::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255,255,255,0.015) 2px,
+    rgba(255,255,255,0.015) 4px
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ============ MARQUEE / TICKER ============ */
+.ticker-wrap {
+  overflow: hidden;
+  width: 100%;
+}
+
+.ticker {
+  display: flex;
+  gap: 3rem;
+  animation: scroll-left 30s linear infinite;
+  white-space: nowrap;
+}
+
+@keyframes scroll-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ============ TEXT FLICKER ============ */
+.text-flicker {
+  animation: flicker 4s infinite;
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.4; }
+  94% { opacity: 1; }
+  96% { opacity: 0.3; }
+  97% { opacity: 1; }
+}
+
+/* ============ SCROLL REVEAL ============ */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============ SHIMMER LINE ============ */
+@keyframes shimmer-line {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+.shimmer-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  transform: translateX(-100%);
+}
+
+.shimmer-btn:hover::after {
+  animation: shimmer-line 0.8s ease-out;
+}
+
+/* ============ PARALLAX FLOAT ============ */
+@keyframes parallax-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33% { transform: translateY(-8px) rotate(0.5deg); }
+  66% { transform: translateY(4px) rotate(-0.3deg); }
+}
+
+/* ============ LOGO BREATHE ============ */
+@keyframes logo-breathe { 
+  0%,100% { transform: translate(-50%,-50%) scale(1); }
+  50% { transform: translate(-50%,-50%) scale(1.02); }
+}
+.hero-logo-bg {
+  animation: logo-breathe 10s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* ============ FLOATING PARTICLES ============ */
+@keyframes float-up {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--white);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  animation: float-up linear infinite;
+}
+
+/* ============ PULSE ANIMATION ============ */
+@keyframes pulse-white {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245, 240, 235, 0.3); }
+  50% { box-shadow: 0 0 20px 4px rgba(245, 240, 235, 0.1); }
+}
+
+@keyframes pulse-gold {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201, 168, 76, 0.4); }
+  50% { box-shadow: 0 0 20px 4px rgba(201, 168, 76, 0.2); }
+}
+
+/* ============ TYPE WRITER ============ */
+@keyframes blink-cursor {
+  0%, 100% { border-color: var(--white); }
+  50% { border-color: transparent; }
+}
+
+/* ============ LETTERBOX BARS ============ */
+.letterbox-top,
+.letterbox-bottom {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: #000;
+  z-index: 100;
+  pointer-events: none;
+}
+.letterbox-top { top: 0; }
+.letterbox-bottom { bottom: 0; }
+
+/* ============ SECTION DIVIDER ============ */
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(245,240,235,0.15), transparent);
+  position: relative;
+}
+
+.section-divider::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  border: 1px solid rgba(245,240,235,0.2);
+  background: var(--black);
+  rotate: 45deg;
+}
+
+/* ============ SCROLL PROGRESS BAR ============ */
+.scroll-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--white), rgba(245,240,235,0.5));
+  transition: width 50ms linear;
+  z-index: 100;
+}
+
+/* ============ NAV LINK HOVER ============ */
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: var(--white);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* ============ MAGNETIC BUTTON OVERRIDE ============ */
+.magnetic-btn-wrapper {
+  display: inline-block;
+}
+
+/* ============ SWIPER OVERRIDES ============ */
+.swiper {
+  overflow: visible !important;
+}
+.swiper-wrapper {
+  align-items: stretch;
+}
+
+/* ============ REDUCED MOTION ============ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .grain-overlay { display: none; }
+  .reveal { opacity: 1; transform: none; }
+  .particle { display: none; }
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 480px) {
+  .ticker-wrap { display: none; }
+  .grain-overlay { opacity: 0.02; }
+  .particle { display: none; }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer base {
+  [data-debug-wrapper="true"] {
+    display: contents !important;
+  }
+}
