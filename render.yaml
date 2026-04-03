@@ -12,10 +12,10 @@ services:
       - key: DB_NAME
         value: naqaab
       - key: CORS_ORIGINS
-        value: https://naqaab-filmmaking.onrender.com,https://filmmaking.onrender.com
+        value: https://filmmaking.onrender.com
 
   - type: web
-    name: naqaab-filmmaking
+    name: filmmaking
     env: static
     rootDir: frontend
     plan: free
@@ -23,4 +23,4 @@ services:
     staticPublishPath: build
     envVars:
       - key: REACT_APP_API_URL
-        value: https://filmmaking.onrender.com
+        value: https://filmmaking-backend.onrender.com
